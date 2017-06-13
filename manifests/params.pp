@@ -57,6 +57,7 @@ class ceph::params (
       $pkg_nsstools        = ['libnss3-tools', 'wget']
       $service_provider    = 'debian'
       $pkg_policycoreutils = 'policycoreutils'
+      $udev_rules_file     = '/lib/udev/rules.d/95-ceph-osd.rules'
     }
 
     'RedHat': {
@@ -66,6 +67,7 @@ class ceph::params (
       $pkg_nsstools        = ['nss-tools', 'wget']
       $service_provider    = 'systemd'
       $pkg_policycoreutils = 'policycoreutils-python'
+      $udev_rules_file     = '/usr/lib/udev/rules.d/95-ceph-osd.rules'
     }
 
     default: {

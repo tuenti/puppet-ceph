@@ -82,7 +82,7 @@ define ceph::osd (
       # Ensure none is activated before prepare is finished for all
       Exec<| tag == 'prepare' |> -> Exec<| tag == 'activate' |>
 
-      $udev_rules_file = '/usr/lib/udev/rules.d/95-ceph-osd.rules'
+      $udev_rules_file = $ceph::params::udev_rules_file
       exec { $ceph_check_udev:
         command   => "/bin/true # comment to satisfy puppet syntax requirements
 # Before Infernalis the udev rules race causing the activation to fail so we
