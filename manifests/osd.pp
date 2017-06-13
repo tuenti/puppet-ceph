@@ -176,6 +176,9 @@ fi
 if test -f ${udev_rules_file}.disabled && ( test -b \${disk}1 || test -b \${disk}p1 ); then
   ceph-disk activate \${disk}1 || true
 fi
+if ! test -f ${udev_rules_file}.disabled && ( test -b \${disk}1 || test -b \${disk}p1 ); then
+  ceph-disk activate \${disk}1 || true
+fi
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
