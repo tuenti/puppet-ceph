@@ -179,7 +179,18 @@ fi
 ",
         unless    => "/bin/true # comment to satisfy puppet syntax requirements
 set -ex
-ls -ld /var/lib/ceph/osd/${cluster_name}-* | grep \" $(readlink -f ${data})\$\"
+disk=$(readlink -f ${data})
+if [ -z \"\$id\" ] ; then
+  id=$(ceph-disk list | sed -nEe \"s:^ *\${disk}1? .*(ceph data|mounted on).*osd\\.([0-9]+).*:\\2:p\")
+fi
+if [ -z \"\$id\" ] ; then
+  id=$(ls -ld /var/lib/ceph/osd/${cluster_name}-* | sed -nEe \"s:.*/${cluster_name}-([0-9]+) *-> *\${disk}\$:\\1:p\" || true)
+fi
+if [ \"\$id\" ] ; then
+  test -d /var/lib/ceph/osd/${cluster_name}-\$id
+else
+  false # no id found
+fi
 ",
         logoutput => true,
         tag       => 'activate',
